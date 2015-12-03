@@ -16,10 +16,8 @@ who likes burritos?
 
 YO MOMMA
 
-<<<<<<< HEAD
 
 peace branch
-=======
+
 I like burritos!
 
->>>>>>> master
