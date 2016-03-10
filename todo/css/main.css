@@ -1,0 +1,10 @@
+@import "normalize.css";
+@import "../node_modules/semantic-ui-css/semantic.css";
+
+.ui ul.list {
+  margin-left: 0;
+}
+
+ul.list .item:before {
+  display: none;
+}
