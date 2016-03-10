@@ -1,23 +1,3 @@
-D
-Hello 
+# Daxko Front-End Guild
 
-Hello
-Hellow World
-
-Hello World
-hEllO WoRlD
-
-HOLA!
-
-Hellow YOU
-
-HOLA! mundo
-who likes burritos?
-
-YO MOMMA
-
-
-peace branch
-
-I like burritos!
-
+The front-end guild at Daxko is a team to help promote and learn best practices with front-end design and development for team members at Daxko. This repository tracks things were working on and is used as a shared workspace for team members.
