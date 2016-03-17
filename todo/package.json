@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
+    "babel-cli": "^6.6.5",
+    "babel-plugin-transform-react-jsx": "^6.6.5",
     "normalize.css": "^3.0.3",
     "postcss": "^5.0.19",
     "postcss-cli": "^2.5.1",
@@ -15,7 +17,10 @@
     "semantic-ui-css": "^2.1.8"
   },
   "scripts": {
-    "css": "./node_modules/.bin/postcss --use postcss-import autoprefixer -o css/global.css css/main.css"
+    "css": "./node_modules/.bin/postcss --config ./.postcss",
+    "watch": "./node_modules/.bin/postcss --watch --config ./.postcss",
+    "jsx": "./node_modules/.bin/babel js/global.jsx --out-file js/global.js"
+
   },
   "author": "Daxko"
 }
