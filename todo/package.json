@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "postcss-cli": "^2.5.1"
-  },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
     "babel-cli": "^6.6.5",
