@@ -18,5 +18,8 @@
     "watch": "./node_modules/.bin/postcss --watch --config ./.postcss & ./node_modules/.bin/babel js/global.jsx --watch --out-file js/global.js",
     "jsx": "./node_modules/.bin/babel js/global.jsx --out-file js/global.js"
   },
-  "author": "Daxko"
+  "author": "Daxko",
+  "dependencies": {
+    "classnames": "^2.2.3"
+  }
 }

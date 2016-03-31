@@ -16,3 +16,12 @@ ul.list .item:before {
 ul.list .item {
   padding: .5em;
 }
+
+li.completed {
+  text-decoration: line-through;
+}
+
+li .delete {
+  float: right;
+  color: red;
+}
