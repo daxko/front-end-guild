@@ -1,36 +1,6 @@
-var TodoItem = React.createClass({
+var TodoItem = require('./TodoItem');
 
-  getDefaultProps: function() {
-    return {
-      name: ""
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      completed: false
-    };
-  },
-
-  handleClick: function() {
-    var completed = this.state.completed;
-    this.setState({ completed: !completed });
-  },
-
-  render: function() {
-    var name = this.props.name;
-    var completed = this.state.completed ? 'completed' : '';
-    return (
-      <li onClick={this.handleClick} className={`item ${completed}`}>
-        {name}
-        <div className="delete" onClick={this.props.onDelete}>delete</div>
-      </li>
-    );
-  }
-
-});
-
-var Todo = React.createClass({
+var TodoApp = React.createClass({
 
   getInitialState: function() {
     return {
@@ -47,7 +17,7 @@ var Todo = React.createClass({
     var items = this.state.items;
     this.setState({
       items: items.filter(function(x) {
-        return x.name !== item.name
+        return x.name !== item.name;
       })
     });
   },
@@ -55,7 +25,9 @@ var Todo = React.createClass({
   addItem: function() {
     var items = this.state.items;
     var value = this.state.value;
-    items.push({ name: value });
+    if(value.length) {
+      items.push({ name: value });
+    }
     this.setState({
       items: items,
       value: ''
@@ -88,4 +60,4 @@ var Todo = React.createClass({
   }
 });
 
-ReactDOM.render(<Todo />, document.getElementById('todo-app'));
+module.exports = TodoApp;

@@ -22457,9 +22457,22 @@ html.ios body {
   display: none;
 }ul.list .item {
   padding: .5em;
+  overflow: hidden;
 }li.completed {
   text-decoration: line-through;
-}li .delete {
-  float: right;
-  color: red;
+}.ui .item .delete {
+  border-radius: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 0;
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  -webkit-transition: -webkit-transform ease-in-out .2s;
+  transition: -webkit-transform ease-in-out .2s;
+  transition: transform ease-in-out .2s;
+  transition: transform ease-in-out .2s, -webkit-transform ease-in-out .2s;
+}.ui .item:hover .delete {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }

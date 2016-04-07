@@ -6,17 +6,19 @@
   "devDependencies": {
     "autoprefixer": "^6.3.3",
     "babel-cli": "^6.6.5",
+    "babel-loader": "^6.2.4",
     "babel-plugin-transform-react-jsx": "^6.6.5",
     "normalize.css": "^3.0.3",
     "postcss": "^5.0.19",
     "postcss-cli": "^2.5.1",
     "postcss-import": "^8.0.2",
-    "semantic-ui-css": "^2.1.8"
+    "semantic-ui-css": "^2.1.8",
+    "webpack": "^1.12.14"
   },
   "scripts": {
     "css": "./node_modules/.bin/postcss --config ./.postcss",
-    "watch": "./node_modules/.bin/postcss --watch --config ./.postcss & ./node_modules/.bin/babel js/global.jsx --watch --out-file js/global.js",
-    "jsx": "./node_modules/.bin/babel js/global.jsx --out-file js/global.js"
+    "watch": "./node_modules/.bin/postcss --watch --config ./.postcss & ./node_modules/.bin/webpack --watch",
+    "jsx": "./node_modules/.bin/webpack"
   },
   "author": "Daxko",
   "dependencies": {
