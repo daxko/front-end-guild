@@ -44,6 +44,8 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var Todo = __webpack_require__(1);
 
 	ReactDOM.render(React.createElement(Todo, null), document.getElementById('todo-app'));
@@ -52,49 +54,56 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
 	var TodoItem = __webpack_require__(2);
 
 	var TodoApp = React.createClass({
 
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return {
-	      items: [],
+	      items: JSON.parse(localStorage.getItem('items')) || [],
 	      value: ''
 	    };
 	  },
 
-	  handleChange: function (e) {
+	  handleChange: function handleChange(e) {
 	    this.setState({ value: e.target.value });
 	  },
 
-	  handleDelete: function (item) {
+	  handleDelete: function handleDelete(item) {
 	    var items = this.state.items;
-	    this.setState({
-	      items: items.filter(function (x) {
-	        return x.name !== item.name;
-	      })
-	    });
+	    this.updateItems(items.filter(function (x) {
+	      return x.name !== item.name;
+	    }));
 	  },
 
-	  addItem: function () {
+	  addItem: function addItem() {
 	    var items = this.state.items;
 	    var value = this.state.value;
 	    if (value.length) {
 	      items.push({ name: value });
 	    }
 	    this.setState({
-	      items: items,
 	      value: ''
 	    });
+	    this.updateItems(items);
 	  },
 
-	  handleKeyUp: function (e) {
+	  updateItems: function updateItems(items) {
+	    this.setState({ items: items });
+	    localStorage.setItem('items', JSON.stringify(items));
+	  },
+
+	  handleKeyUp: function handleKeyUp(e) {
 	    if (e.which === 13) {
 	      this.addItem();
 	    }
 	  },
 
-	  render: function () {
+	  render: function render() {
+	    var _this = this;
+
 	    var items = this.state.items;
 	    var value = this.state.value;
 	    var handleDelete = this.handleDelete;
@@ -114,12 +123,13 @@
 	      React.createElement(
 	        'ul',
 	        { className: 'ui divided selection list large' },
-	        items.map(function (item) {
-	          return React.createElement(TodoItem, { name: item.name, onDelete: handleDelete.bind(this, item) });
+	        items.map(function (item, index) {
+	          return React.createElement(TodoItem, { key: item.name + '-' + index, name: item.name, onDelete: handleDelete.bind(_this, item) });
 	        })
 	      )
 	    );
 	  }
+
 	});
 
 	module.exports = TodoApp;
@@ -128,22 +138,32 @@
 /* 2 */
 /***/ function(module, exports) {
 
+	'use strict';
+
 	var TodoItem = React.createClass({
 
-	  getDefaultProps: function () {
+	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      name: ""
 	    };
 	  },
 
-	  handleTouchStart: function (e) {
+	  componentDidMount: function componentDidMount() {
+	    if (!('ontouchstart' in window)) {
+	      this.setState({
+	        cantTouchThis: true
+	      });
+	    }
+	  },
+
+	  handleTouchStart: function handleTouchStart(e) {
 	    this.setState({
 	      touchStart: e.changedTouches[0].pageX,
 	      isTouchActive: true
 	    });
 	  },
 
-	  handleTouchMove: function (e) {
+	  handleTouchMove: function handleTouchMove(e) {
 	    var touchStart = this.state.touchStart;
 	    var touchMove = e.changedTouches[0].pageX;
 	    this.setState({
@@ -151,7 +171,7 @@
 	    });
 	  },
 
-	  handleTouchEnd: function (e) {
+	  handleTouchEnd: function handleTouchEnd(e) {
 	    if (this.state.touchMove > this.refs.deleteButton.offsetWidth) {
 	      this.props.onDelete();
 	    }
@@ -162,21 +182,22 @@
 	    });
 	  },
 
-	  getInitialState: function () {
+	  getInitialState: function getInitialState() {
 	    return {
 	      isTouchActive: false,
 	      completed: false,
 	      touchStart: 0,
-	      touchMove: 0
+	      touchMove: 0,
+	      cantTouchThis: false
 	    };
 	  },
 
-	  handleClick: function () {
+	  handleClick: function handleClick() {
 	    var completed = this.state.completed;
 	    this.setState({ completed: !completed });
 	  },
 
-	  render: function () {
+	  render: function render() {
 	    var name = this.props.name;
 	    var completed = this.state.completed ? 'completed' : '';
 	    var move = Math.max(100 - this.state.touchMove, 0);
@@ -186,14 +207,17 @@
 	        onTouchMove: this.handleTouchMove,
 	        onTouchEnd: this.handleTouchEnd,
 	        onClick: this.handleClick,
-	        className: `item ${ completed }` },
+	        className: 'item ' + completed },
 	      name,
 	      React.createElement(
 	        'button',
 	        { type: 'button',
 	          ref: 'deleteButton',
 	          className: 'ui red button delete',
-	          style: { transform: `translateX(${ move }%)`, transitionDuration: this.state.isTouchActive ? null : '0s' },
+	          style: {
+	            transform: this.state.cantTouchThis ? null : 'translateX(' + move + '%)',
+	            transitionDuration: this.state.isTouchActive ? '0s' : null
+	          },
 	          onClick: this.props.onDelete },
 	        'delete'
 	      )

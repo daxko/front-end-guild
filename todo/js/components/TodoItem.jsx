@@ -6,6 +6,14 @@ var TodoItem = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    if(!('ontouchstart' in window)) {
+      this.setState({
+        cantTouchThis: true
+      });
+    }
+  },
+
   handleTouchStart: function(e) {
     this.setState({
       touchStart: e.changedTouches[0].pageX,
@@ -37,7 +45,8 @@ var TodoItem = React.createClass({
       isTouchActive: false,
       completed: false,
       touchStart: 0,
-      touchMove: 0
+      touchMove: 0,
+      cantTouchThis: false
     };
   },
 
@@ -60,7 +69,10 @@ var TodoItem = React.createClass({
         <button type="button"
           ref="deleteButton"
           className="ui red button delete"
-          style={{ transform: `translateX(${move}%)`, transitionDuration: this.state.isTouchActive ? null : '0s'  }}
+          style={{
+            transform: this.state.cantTouchThis ? null : `translateX(${move}%)`,
+            transitionDuration: this.state.isTouchActive ? '0s' : null
+          }}
           onClick={this.props.onDelete}>
             delete
         </button>

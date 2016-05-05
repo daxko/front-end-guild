@@ -4,7 +4,7 @@ var TodoApp = React.createClass({
 
   getInitialState: function() {
     return {
-      items: [],
+      items: JSON.parse(localStorage.getItem('items')) || [],
       value: ''
     };
   },
@@ -15,11 +15,9 @@ var TodoApp = React.createClass({
 
   handleDelete: function(item) {
     var items = this.state.items;
-    this.setState({
-      items: items.filter(function(x) {
-        return x.name !== item.name;
-      })
-    });
+    this.updateItems(items.filter(function(x) {
+      return x.name !== item.name;
+    }));
   },
 
   addItem: function() {
@@ -29,9 +27,14 @@ var TodoApp = React.createClass({
       items.push({ name: value });
     }
     this.setState({
-      items: items,
       value: ''
     });
+    this.updateItems(items);
+  },
+
+  updateItems: function(items) {
+    this.setState({ items: items });
+    localStorage.setItem('items', JSON.stringify(items));
   },
 
   handleKeyUp: function(e) {
@@ -51,13 +54,14 @@ var TodoApp = React.createClass({
           <button onClick={this.addItem} className="ui button" type="button">Add</button>
         </div>
         <ul className="ui divided selection list large">
-          {items.map(function(item) {
-            return <TodoItem name={item.name} onDelete={handleDelete.bind(this, item)} />
+          {items.map((item, index) => {
+            return <TodoItem key={`${item.name}-${index}`} name={item.name} onDelete={handleDelete.bind(this, item)} />
           })}
         </ul>
       </div>
     );
   }
+
 });
 
 module.exports = TodoApp;
