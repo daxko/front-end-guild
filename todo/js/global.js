@@ -48,6 +48,14 @@
 
 	var Todo = __webpack_require__(1);
 
+	if ('serviceWorker' in navigator) {
+	  navigator.serviceWorker.register('/sw.js').then(function (registration) {
+	    console.log('👍 service worker');
+	  }).catch(function (registration) {
+	    console.log('👎 service worker');
+	  });
+	}
+
 	ReactDOM.render(React.createElement(Todo, null), document.getElementById('todo-app'));
 
 /***/ },
